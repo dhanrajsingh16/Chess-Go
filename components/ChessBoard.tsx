@@ -262,14 +262,25 @@ const ChessBoard = forwardRef<ChessBoardRef, ChessBoardProps>(({ onPlayerChange,
 
         // Check if this move would put our own king in check
         if (!wouldKingBeInCheck(newBoard, currentPlayer)) {
+          // Check if we're capturing a king
+          const capturedPiece = board[row][col];
+          const isKingCapture = capturedPiece && capturedPiece.type === 'king';
+
           setBoard(newBoard);
           const nextPlayer = currentPlayer === 'white' ? 'black' : 'white';
           setCurrentPlayer(nextPlayer);
           onPlayerChange(nextPlayer);
           setSelectedSquare(null);
 
+          // Check for king capture (immediate win)
+          if (isKingCapture) {
+            setGameOver({
+              winner: currentPlayer,
+              reason: 'King Captured'
+            });
+          }
           // Check for checkmate
-          if (isCheckmate(nextPlayer)) {
+          else if (isCheckmate(nextPlayer)) {
             setGameOver({
               winner: currentPlayer,
               reason: 'Checkmate'
@@ -367,13 +378,13 @@ const ChessBoard = forwardRef<ChessBoardRef, ChessBoardProps>(({ onPlayerChange,
         <div className="absolute inset-0 bg-black bg-opacity-75 flex items-center justify-center rounded-lg">
           <div className="bg-white rounded-lg shadow-2xl p-8 text-center max-w-sm mx-4">
             <div className="text-6xl mb-4">
-              {gameOver.winner === 'white' ? '⚫' : '🔵'}
+              {gameOver.reason === 'King Captured' ? '👑' : (gameOver.winner === 'white' ? '⚫' : '🔵')}
             </div>
             <h2 className="text-3xl font-bold text-gray-800 mb-2">
-              {gameOver.winner === 'white' ? 'Black Pieces' : 'Blue Pieces'} Win!
+              {gameOver.winner === 'white' ? '⚫ Black Pieces' : '🔵 Blue Pieces'} Win!
             </h2>
             <p className="text-lg text-gray-600 mb-6">
-              Game Over by {gameOver.reason}
+              {gameOver.reason === 'King Captured' ? '👑 King Captured!' : 'Game Over by Checkmate'}
             </p>
             <button
               onClick={resetGame}
