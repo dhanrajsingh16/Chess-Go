@@ -67,6 +67,7 @@ const ChessBoard = forwardRef<ChessBoardRef, ChessBoardProps>(({ onPlayerChange,
   const [board, setBoard] = useState<(Piece | null)[][]>(initialBoard);
   const [selectedSquare, setSelectedSquare] = useState<{ row: number; col: number } | null>(null);
   const [currentPlayer, setCurrentPlayer] = useState<'white' | 'black'>('white');
+  const [gameOver, setGameOver] = useState<{ winner: 'white' | 'black' | null; reason: string } | null>(null);
 
   const getPieceSymbol = (piece: Piece | null): string => {
     if (!piece) return '';
@@ -248,6 +249,8 @@ const ChessBoard = forwardRef<ChessBoardRef, ChessBoardProps>(({ onPlayerChange,
 
 
   const handleSquareClick = (row: number, col: number) => {
+    if (gameOver) return; // Prevent moves when game is over
+
     if (selectedSquare) {
       if (selectedSquare.row === row && selectedSquare.col === col) {
         setSelectedSquare(null);
@@ -267,7 +270,10 @@ const ChessBoard = forwardRef<ChessBoardRef, ChessBoardProps>(({ onPlayerChange,
 
           // Check for checkmate
           if (isCheckmate(nextPlayer)) {
-            alert(`${currentPlayer.charAt(0).toUpperCase() + currentPlayer.slice(1)} wins by checkmate!`);
+            setGameOver({
+              winner: currentPlayer,
+              reason: 'Checkmate'
+            });
           } else if (isKingInCheck(nextPlayer)) {
             alert(`${nextPlayer.charAt(0).toUpperCase() + nextPlayer.slice(1)} is in check!`);
           }
@@ -320,6 +326,7 @@ const ChessBoard = forwardRef<ChessBoardRef, ChessBoardProps>(({ onPlayerChange,
     setBoard(initialBoard.map(r => [...r]));
     setCurrentPlayer('white');
     setSelectedSquare(null);
+    setGameOver(null);
     onPlayerChange('white');
     onReset();
   };
@@ -330,28 +337,53 @@ const ChessBoard = forwardRef<ChessBoardRef, ChessBoardProps>(({ onPlayerChange,
   }));
 
   return (
-    <div className="inline-block border-4 border-amber-900 rounded-lg shadow-2xl bg-amber-900 p-1 md:p-2">
-      {board.map((row, rowIndex) => (
-        <div key={rowIndex} className="flex">
-          {row.map((piece, colIndex) => {
-            const isLight = (rowIndex + colIndex) % 2 === 0;
-            const isSelected = selectedSquare?.row === rowIndex && selectedSquare?.col === colIndex;
-            return (
-              <div
-                key={colIndex}
-                className={`w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 flex items-center justify-center text-3xl md:text-4xl lg:text-5xl cursor-pointer transition-all duration-200 hover:scale-105 ${
-                  isLight ? 'bg-amber-50' : 'bg-amber-700'
-                } ${isSelected ? 'ring-4 ring-blue-400 shadow-lg' : 'hover:shadow-md'}`}
-                onClick={() => handleSquareClick(rowIndex, colIndex)}
-              >
-                <span className={getPieceStyle(piece, isLight)}>
-                  {getPieceSymbol(piece)}
-                </span>
-              </div>
-            );
-          })}
+    <div className="relative inline-block">
+      <div className="inline-block border-4 border-amber-900 rounded-lg shadow-2xl bg-amber-900 p-1 md:p-2">
+        {board.map((row, rowIndex) => (
+          <div key={rowIndex} className="flex">
+            {row.map((piece, colIndex) => {
+              const isLight = (rowIndex + colIndex) % 2 === 0;
+              const isSelected = selectedSquare?.row === rowIndex && selectedSquare?.col === colIndex;
+              return (
+                <div
+                  key={colIndex}
+                  className={`w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 flex items-center justify-center text-3xl md:text-4xl lg:text-5xl cursor-pointer transition-all duration-200 hover:scale-105 ${
+                    isLight ? 'bg-amber-50' : 'bg-amber-700'
+                  } ${isSelected ? 'ring-4 ring-blue-400 shadow-lg' : 'hover:shadow-md'}`}
+                  onClick={() => handleSquareClick(rowIndex, colIndex)}
+                >
+                  <span className={getPieceStyle(piece, isLight)}>
+                    {getPieceSymbol(piece)}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        ))}
+      </div>
+
+      {/* Game Over Modal */}
+      {gameOver && (
+        <div className="absolute inset-0 bg-black bg-opacity-75 flex items-center justify-center rounded-lg">
+          <div className="bg-white rounded-lg shadow-2xl p-8 text-center max-w-sm mx-4">
+            <div className="text-6xl mb-4">
+              {gameOver.winner === 'white' ? '⚫' : '🔵'}
+            </div>
+            <h2 className="text-3xl font-bold text-gray-800 mb-2">
+              {gameOver.winner === 'white' ? 'Black Pieces' : 'Blue Pieces'} Win!
+            </h2>
+            <p className="text-lg text-gray-600 mb-6">
+              Game Over by {gameOver.reason}
+            </p>
+            <button
+              onClick={resetGame}
+              className="px-6 py-3 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors duration-200 font-semibold shadow-md hover:shadow-lg text-lg"
+            >
+              🎮 Play Again
+            </button>
+          </div>
         </div>
-      ))}
+      )}
     </div>
   );
 });
