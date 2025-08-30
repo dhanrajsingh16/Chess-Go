@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Chess Go  
 
-## Getting Started
+A simple web-based **Chess Game** built with React.  
+Play chess directly in user's browser with a clean UI and standard rules.  
 
-First, run the development server:
+Features
+-> Two-player mode  
+-> Standard chess rules  
+-> Restart anytime with **New Game** button  
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Getting Started
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Clone the repo and run it locally
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+git clone https://github.com/dhanrajsingh16/Chess-Go
+cd chess-go
+npm install
+npm start
+Now open https://chess-go-mu.vercel.app/ in your browser.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Screenshot : 
 
-## Learn More
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/3d1b531b-523f-4fb2-a4b5-16c97cf62e26" />
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Future Improvements 
+AI opponent
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Move history
 
-## Deploy on Vercel
+Timer support
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Online multiplayer
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Author 
+
+Dhanraj Singh
