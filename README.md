@@ -4,6 +4,7 @@ A simple web-based Chess Game built.
 Play chess directly in user's browser with a clean UI and standard rules.  
 
 Features
+
 -> Two-player mode  
 -> Standard chess rules  
 -> Restart anytime with **New Game** button  
