@@ -330,7 +330,7 @@ const ChessBoard = forwardRef<ChessBoardRef, ChessBoardProps>(({ onPlayerChange,
   }));
 
   return (
-    <div className="inline-block border-4 border-amber-900 rounded-lg shadow-2xl bg-amber-900 p-2">
+    <div className="inline-block border-4 border-amber-900 rounded-lg shadow-2xl bg-amber-900 p-1 md:p-2">
       {board.map((row, rowIndex) => (
         <div key={rowIndex} className="flex">
           {row.map((piece, colIndex) => {
@@ -339,7 +339,7 @@ const ChessBoard = forwardRef<ChessBoardRef, ChessBoardProps>(({ onPlayerChange,
             return (
               <div
                 key={colIndex}
-                className={`w-20 h-20 flex items-center justify-center text-5xl cursor-pointer transition-all duration-200 hover:scale-105 ${
+                className={`w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 flex items-center justify-center text-3xl md:text-4xl lg:text-5xl cursor-pointer transition-all duration-200 hover:scale-105 ${
                   isLight ? 'bg-amber-50' : 'bg-amber-700'
                 } ${isSelected ? 'ring-4 ring-blue-400 shadow-lg' : 'hover:shadow-md'}`}
                 onClick={() => handleSquareClick(rowIndex, colIndex)}
