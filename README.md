@@ -1,6 +1,6 @@
 Chess Go  
 
-A simple web-based **Chess Game** built with React.  
+A simple web-based Chess Game built.  
 Play chess directly in user's browser with a clean UI and standard rules.  
 
 Features
