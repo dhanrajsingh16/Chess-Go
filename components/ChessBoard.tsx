@@ -73,17 +73,17 @@ const ChessBoard = forwardRef<ChessBoardRef, ChessBoardProps>(({ onPlayerChange,
     if (!piece) return '';
     const symbols: Record<string, string> = {
       'pawn-white': '♙',
-      'pawn-black': '♟',
+      'pawn-black': '♙',
       'rook-white': '♖',
-      'rook-black': '♜',
+      'rook-black': '♖',
       'knight-white': '♘',
-      'knight-black': '♞',
+      'knight-black': '♘',
       'bishop-white': '♗',
-      'bishop-black': '♝',
+      'bishop-black': '♗',
       'queen-white': '♕',
-      'queen-black': '♛',
+      'queen-black': '♕',
       'king-white': '♔',
-      'king-black': '♚',
+      'king-black': '♔',
     };
     return symbols[`${piece.type}-${piece.color}`];
   };
